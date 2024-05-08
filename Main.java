@@ -33,7 +33,7 @@ public class Main{
     switch (getSel()) {
         case 1: 
                 newScr();
-                logIn login = new logIn();
+                new logIn();
                 break;
         case 2: System.out.println("This is Create account");
             
