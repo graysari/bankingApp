@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Accounts {
     private int idNumber;
     private int pinCode;
     private String fullName;
-    private double balance;
+    private double balance;    
 
     public Accounts(int idNumber, int pinCode, String fullName, double balance) {
         this.idNumber = idNumber;
