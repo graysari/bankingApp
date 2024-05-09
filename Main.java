@@ -1,7 +1,7 @@
 import java.util.*;
 public class Main{
     private int sel;
-    
+    Accounts accts[] = new Accounts[4];
     public int getSel() {
         return this.sel;
     }
@@ -35,8 +35,7 @@ public class Main{
                 newScr();
                 new logIn();
                 break;
-        case 2: System.out.println("This is Create account");
-            
+        case 2: new CreateAccount();
                 break;
         case 3: System.out.println("This is Exit");
             
