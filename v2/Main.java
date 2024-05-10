@@ -21,13 +21,11 @@ public class Main{
         showRecords();
         accts.get(1).setBalance(55);
         System.out.println(accts.get(1).getBalance());
-
-        
-
         
 
         boolean select = true;
         do{
+        main.newScr();
         main.mainScr();
         main.select();
         switch (main.getSel()) {
@@ -37,18 +35,21 @@ public class Main{
                     main.select();
                         switch (main.getSel()) {
                             case 1:
-                                System.out.println("enter password");
-                                main.newScr();
+                                int id;
+                                int pin;
+                                System.out.print("\nEnter your ID: ");id = main.inp.nextInt();
+                                System.out.print("\nEnter your Pin: ");pin = main.inp.nextInt();
+
                                 break;
                             case 2:
                                 System.out.println("case2");
-                                main.newScr();
                                 break;
                         
                             default:break;
                         }
                     break;
-            case 2: new CreateAccount();
+            case 2: 
+                    main.createAccountScr();
                     break;
             case 3: System.out.println("This is Exit");
                     select = false;
@@ -61,6 +62,8 @@ public class Main{
                     break;
         }
     }while(select);
+
+    
 
 
         
@@ -87,7 +90,9 @@ public void logInScr(){
     System.out.println("1. Enter your ID number and Pin code");
     System.out.println("2. Back");
 }
-
+public void createAccountScr(){
+    System.out.println("\nThis feature is not yet available.");   
+}
 
 public static void showRecords(){
     int x=1;
