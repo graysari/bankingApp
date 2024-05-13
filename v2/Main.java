@@ -1,100 +1,130 @@
 import java.util.*;
 public class Main{
     private int sel;    
+    private int session;
     static ArrayList<Accounts> accts = new ArrayList<Accounts>();
+    Scanner inp = new Scanner(System.in);
+    static boolean select = true;
 
-    public int getSel() {
-        return this.sel;
-    }
-
-    public void setSel(int sel) {
-       this.sel = sel;
-    }
 
     public static void main(String[] args) {
         Main main = new Main();
-        accts.add(new Accounts(001, 123, "Reb", 552.50));
-        accts.add(new Accounts(002, 456, "Jegs", 477.25));
-        accts.add(new Accounts(003, 789, "Carj", 350.33));
-        accts.add(new Accounts(004, 000, "Nick", 10.50));
+
+        accts.add(new Accounts(2024001, 123, "Reb", 552.50));
+        accts.add(new Accounts(2024002, 456, "Jegs", 477.25));
+        accts.add(new Accounts(2024003, 789, "Carj", 350.33));
+        accts.add(new Accounts(2024004, 000, "Nick", 10.50));
 
         showRecords();
-        accts.get(1).setBalance(55);
-        System.out.println(accts.get(1).getBalance());
+
+        int a = 2024004;
+
+        System.out.println(accts.get(main.getIndexOfIDNumber(a)).getFullName());
+
+        main.mainScr();        
+
+        if (main.getSession() == 0) {
+            System.out.println("There is no current session");
+        }
+        else 
+        {
+            
+        System.out.println("\nHello "+accts.get(main.getIndexOfIDNumber(main.getSession())).getFullName()+". Welcome to Sltcfi Banking application");
+        main.userScr();
         
+        }
 
-        boolean select = true;
-        do{
-        main.newScr();
-        main.mainScr();
-        main.select();
-        switch (main.getSel()) {
+}
+
+public void select(){    
+    System.out.print("\nPlease Select: ");
+    setSel(inp.nextInt());
+}
+public void mainScr(){
+    do{
+        newScr();
+        System.out.println("1. Login");        
+        System.out.println("2. Create account");        
+        System.out.println("3. Exit");
+        select();
+        switch (getSel()) {
             case 1: 
-                    main.newScr();
-                    main.logInScr();
-                    main.select();
-                        switch (main.getSel()) {
-                            case 1:
-                                int id;
-                                int pin;
-                                System.out.print("\nEnter your ID: ");id = main.inp.nextInt();
-                                System.out.print("\nEnter your Pin: ");pin = main.inp.nextInt();
-
-                                break;
-                            case 2:
-                                System.out.println("case2");
-                                break;
-                        
-                            default:break;
-                        }
+                    logInScr();                    
                     break;
             case 2: 
-                    main.createAccountScr();
+                    createAccountScr();
                     break;
             case 3: System.out.println("This is Exit");
                     select = false;
+                    inp.close();
                     break;                
         
             default:
-                    main.newScr();
+                    newScr();
                     System.out.println("Invalid Number. Please select a number again.");
-                    main.mainScr();
                     break;
         }
     }while(select);
 
-    
-
-
-        
-        
-}
-
-
-public void newScr(){
-    System.out.println("\n*******************************************************************\n");
-}
-Scanner inp = new Scanner(System.in);
-public void select(){    
-    System.out.print("\nPlease Select: ");
-
-    setSel(inp.nextInt());
-}
-public void mainScr(){
-    System.out.println("1. Login");        
-    System.out.println("2. Create account");        
-    System.out.println("3. Exit");
 }
 
 public void logInScr(){
+    newScr();
     System.out.println("1. Enter your ID number and Pin code");
     System.out.println("2. Back");
-}
-public void createAccountScr(){
-    System.out.println("\nThis feature is not yet available.");   
+    select();
+    switch (getSel()) {
+        case 1:
+            newScr();
+            int id;
+            int pin;
+            System.out.print("\nEnter your ID: ");id = inp.nextInt();
+            System.out.print("\nEnter your Pin: ");pin = inp.nextInt();
+            if (pin == getPinOfId(getIndexOfIDNumber(id))) {
+                System.out.println("\nLog in success");
+                select = false;
+                setSession(id);
+            }
+            else{
+                System.out.println("Invalid User Id and/or Pin");
+            }
+            break;
+        case 2:
+            break;
+    
+        default:break;
+    }
 }
 
-public static void showRecords(){
+public void createAccountScr(){
+    newScr();
+
+    String name; 
+    int pin;
+    double depo;
+    System.out.print("Enter Name: ");   
+    name = inp.next();
+    System.out.print("Enter 4-pin Code: ");
+    pin = inp.nextInt();   
+    System.out.print("Enter initial deposite: ");
+    depo = inp.nextDouble();
+
+    accts.add(new Accounts(2024005, pin, name, depo));
+    System.out.println("record added successfully failed!");
+    showRecords();
+}
+public void userScr(){
+    newScr();
+    System.out.println("1. Check Balance");
+    System.out.println("2. Withdraw");
+    System.out.println("3. Transfer Balance");
+    System.out.println("4. Log out");
+}
+public int getPinOfId(int id){
+    return accts.get(id).getPinCode();
+}
+public static void showRecords()
+{
     int x=1;
     for(Accounts acct: accts)
     {
@@ -106,53 +136,35 @@ public static void showRecords(){
         System.out.println();
     }
 
+    } 
+public int getIndexOfIDNumber(int a){
+    int iOf=-1;
+    int f=0;
+    for(Accounts acct: accts)
+    {
+        if (a == acct.getIdNumber()) {
+            iOf = f;
+        }
+        f++;
     }
+
+return iOf;
 }
-
-
-class Accounts {
-    private int idNumber;
-    private int pinCode;
-    private String fullName;
-    private double balance;    
-
-    public Accounts(int idNumber, int pinCode, String fullName, double balance) {
-        this.idNumber = idNumber;
-        this.pinCode = pinCode;
-        this.fullName = fullName;
-        this.balance = balance;
-    }
-
-    public int getIdNumber() {
-        return this.idNumber;
-    }
-
-    public void setIdNumber(int idNumber) {
-        this.idNumber = idNumber;
-    }
-
-    public int getPinCode() {
-        return this.pinCode;
-    }
-
-    public void setPinCode(int pinCode) {
-        this.pinCode = pinCode;
-    }
-
-    public String getFullName() {
-        return this.fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public double getBalance() {
-        return this.balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-    
+public void newScr(){
+    System.out.println("\n*******************************************************************\n");
+}
+public int getSession(){
+    return this.session;
+}
+public void setSession(int session){
+    this.session = session;
+}
+public int getSel() 
+{
+    return this.sel;
+}
+public void setSel(int sel) 
+{
+   this.sel = sel;
+}
 }
